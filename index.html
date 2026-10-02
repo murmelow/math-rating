@@ -1,22 +1,25 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>murmelow-site</title></title>
+  <title>murmelow — Math Rating</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="icon" href="./favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 
   <style>
     :root {
       --bg: #000000;
+      --panel: #080808;
+      --panel-hover: #0d0d0d;
       --text: #e6e6e6;
-      --muted: #8a8a8a;
+      --muted: #777;
+      --line: #171717;
       --accent: #8b5cf6;
+      --accent-dark: #3b1fa8;
+      --green: #7ee787;
+      --red: #ff6b6b;
     }
 
     * {
@@ -26,212 +29,1498 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
       font-family: Inter, system-ui, Arial, sans-serif;
     }
 
+    button,
+    input {
+      font: inherit;
+    }
 
-    
-   .layout {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  height: 100vh;
-}
+    button {
+      cursor: pointer;
+    }
 
-/* ================== БОКОВЫЕ КОЛОНКИ ================== */
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr 220px;
+      min-height: 100vh;
+    }
+
+    /* ================= SIDEBARS ================= */
+
     .sidebar {
-  padding: 40px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  border-right: 1px solid #111;
-}
-    .sidebar:last-of-type {
-  border-right: none;
-  border-left: 1px solid #111;
-}   
+      padding: 40px 24px;
+      border-right: 1px solid var(--line);
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    .sidebar.right {
+      border-right: none;
+      border-left: 1px solid var(--line);
+    }
+
     .sidebar h2 {
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
       color: var(--accent);
-}
-    .sidebar a {
-      display: block;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 0.95rem;
-      padding: 6px 0;
-      opacity: 0.85;
-      transition: 0.2s;
-}
-    .sidebar a:hover {
-      color: var(--accent);
-      opacity: 1;
-}
-    .sidebar.right h2 {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 16px;
-}
-    .sidebar.right a {
-  font-size: 11px;
-  text-align: left;
-  display: block;
-  padding: 8px 0;
-}
-    .sidebar.pixel {
-  font-family: 'Press Start 2P', monospace;
-}
-    .sidebar.pixel h2 {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 16px;
-}
-    .sidebar.pixel a {
-  font-size: 11px;
-  display: block;
-  padding: 8px 0;
-}
-    
-/* ================== ЦЕНТРАЛЬНАЯ КОЛОНКА ================== */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      padding-top: 40px;
-      padding-bottom: 0;
-}
-    .profile {
       text-align: center;
-      position: relative;
-}
+      font-size: 13px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .nav-item {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 9px;
+      line-height: 1.7;
+      padding: 10px 0;
+      border-bottom: 1px solid #101010;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: var(--accent);
+    }
+
+    .side-stat {
+      padding: 14px 0;
+      border-bottom: 1px solid #101010;
+    }
+
+    .side-stat-name {
+      color: var(--muted);
+      font-size: 8px;
+      margin-bottom: 8px;
+    }
+
+    .side-stat-value {
+      font-size: 13px;
+    }
+
+    /* ================= MAIN ================= */
+
+    .main {
+      padding: 40px 45px 80px;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
     .pixel-title {
       font-family: 'Press Start 2P', monospace;
-      font-size: 32px;
+      font-size: 30px;
       color: var(--accent);
-      text-shadow: 2px 2px 0 #000, 4px 4px 0 #3b1fa8;
-      animation: glitch 2.5s infinite;
-}
-    .pixel-title::before,
-    .pixel-title::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 180px;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--accent), transparent);
-      transform: translateY(-50%);
-      opacity: 0.7;
-      filter: drop-shadow(0 0 8px rgba(139,92,246,0.5));
-      animation: linePulse 4s infinite;
-}
-    .pixel-title::before {
-      right: 100%;
-      margin-right: 48px;
-}
-    .pixel-title::after {
-      left: 100%;
-      margin-left: 48px;
-}
-    .profile::before,
-    .profile::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 12px;
-      height: 12px;
-      border: 2px solid var(--accent);
-      opacity: 0.8;
-}
-    .profile::before {
-      left: -24px;
-      border-right: none;
-      border-bottom: none;
-      transform: translateY(-50%);
-}
-    .profile::after {
-      right: -24px;
-      border-left: none;
-      border-top: none;
-      transform: translateY(-50%);
-}
-    @keyframes linePulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.9; }
-}
+      text-shadow:
+        2px 2px 0 #000,
+        4px 4px 0 var(--accent-dark);
+    }
 
+    .subtitle {
+      margin-top: 15px;
+      color: var(--muted);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
 
-    .bio {
+    /* ================= RATING ================= */
+
+    .rating-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 35px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    .main-rating {
+      font-family: 'Press Start 2P', monospace;
+      color: var(--text);
+      font-size: 52px;
+      margin: 22px 0 16px;
+    }
+
+    .rank {
+      display: inline-block;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 13px;
+      padding: 9px 14px;
+    }
+
+    .areas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .area {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 22px;
+    }
+
+    .area:hover {
+      background: var(--panel-hover);
+    }
+
+    .area-name {
+      color: var(--muted);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+    }
+
+    .area-rating {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 24px;
+      margin: 17px 0 10px;
+    }
+
+    /* ================= STATS ================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      padding: 17px;
+      background: var(--panel);
+    }
+
+    .stat-name {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+    }
+
+    /* ================= PROBLEM ================= */
+
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+
+    .panel-header {
       display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-top: 24px;
-      align-self: flex-start;
-      padding-left: 24px;
-}
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
 
-    .bio img {
-      width: 225px;
-      height: 225px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #1a1a1a;
-}
-    .bio-text {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #e6e6e6;
-}
-    .bio-text p {
-      margin: 0;
-}
+    .problem-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
 
-    .bio-accent {
+    .difficulty {
+      font-family: 'Press Start 2P', monospace;
       color: var(--accent);
-      font-weight: 700;
-}
+      font-size: 9px;
+      white-space: nowrap;
+    }
 
-    
+    .problem-text {
+      font-size: 20px;
+      line-height: 1.7;
+      padding: 25px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .answer-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .answer-input {
+      flex: 1;
+      min-width: 0;
+      background: #000;
+      color: var(--text);
+      border: 1px solid #222;
+      padding: 13px;
+      outline: none;
+    }
+
+    .answer-input:focus {
+      border-color: var(--accent);
+    }
+
+    .button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 13px 20px;
+      font-weight: 700;
+    }
+
+    .button:hover {
+      background: #7547df;
+    }
+
+    .button.secondary {
+      background: transparent;
+      border: 1px solid #292929;
+      color: var(--text);
+    }
+
+    .button.secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      display: none;
+    }
+
+    .result.visible {
+      display: block;
+    }
+
+    .result.correct {
+      color: var(--green);
+    }
+
+    .result.wrong {
+      color: var(--red);
+    }
+
+    /* ================= HISTORY ================= */
+
+    .history-row {
+      display: grid;
+      grid-template-columns: 1fr 100px 80px;
+      gap: 15px;
+      padding: 13px 0;
+      border-bottom: 1px solid #111;
+      font-size: 12px;
+    }
+
+    .history-result.correct {
+      color: var(--green);
+    }
+
+    .history-result.wrong {
+      color: var(--red);
+    }
+
+    .positive {
+      color: var(--green);
+    }
+
+    .negative {
+      color: var(--red);
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 15px 0;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        padding: 30px 18px 60px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .areas,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .main-rating {
+        font-size: 38px;
+      }
+
+      .pixel-title {
+        font-size: 22px;
+      }
+
+      .answer-row {
+        flex-direction: column;
+      }
+
+      .history-row {
+        grid-template-columns: 1fr 70px 60px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="layout">
 
-<!-- ====== ЛЕВАЯ КОЛОНКА ====== -->
-   <aside class="sidebar pixel">
-  <div class="links">
-    <h2>????????</h2>
-  </div>
-</aside>
+<div class="layout">
 
-<!-- ====== ЦЕНТРАЛЬНАЯ КОЛОНКА ====== -->
-    <main class="main">
-      <div class="profile">
-        <h1 class="pixel-title">murmelow</h1>
+  <!-- ================= LEFT ================= -->
+
+  <aside class="sidebar">
+
+    <h2>MATH<br>RATING</h2>
+
+    <div class="nav-item active">PROFILE</div>
+    <div class="nav-item" onclick="newProblem()">PROBLEM</div>
+    <div class="nav-item" onclick="showHistory()">HISTORY</div>
+
+  </aside>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main class="main">
+
+    <header class="profile-header">
+
+      <h1 class="pixel-title">murmelow</h1>
+
+      <div class="subtitle">
+        PERSONAL MATH RATING
       </div>
 
-      <div class="bio">
-        <img src="avatar.webp" alt="me">
-        <div class="bio-text">
-          <p>
-            <span class="bio-accent">Математика</span> — точная формальная наука, первоначально исследовавшая количественные отношения и пространственные формы. В более современном понимании, это наука об отношениях между объектами, о которых ничего не известно, кроме описывающих их некоторых свойств, — именно тех, которые в качестве аксиом положены в основание той или иной математической теории. Математические объекты создаются путём идеализации свойств реальных или других математических объектов и записи этих свойств на формальном языке. Она является фундаментальной наукой, предоставляющей языковые средства другим наукам; тем самым она выявляет их структурную взаимосвязь и способствует нахождению самых общих законов природы.
-          </p>
+    </header>
+
+
+    <!-- OVERALL RATING -->
+
+    <section class="rating-card">
+
+      <div class="label">
+        OVERALL RATING
+      </div>
+
+      <div class="main-rating" id="overallRating">
+        1000
+      </div>
+
+      <div class="rank" id="overallRank">
+        C
+      </div>
+
+    </section>
+
+
+    <!-- AREAS -->
+
+    <section class="areas">
+
+      <div class="area">
+        <div class="area-name">ALGEBRA</div>
+
+        <div class="area-rating" id="algebraRating">
+          1000
+        </div>
+
+        <div class="rank" id="algebraRank">
+          C
         </div>
       </div>
-    </main>
 
-<!-- ====== ПРАВАЯ КОЛОНКА ====== -->
-    <aside class="sidebar right pixel">
-      <div class="links">
-        <h2>????????</h2>
+
+      <div class="area">
+        <div class="area-name">GEOMETRY</div>
+
+        <div class="area-rating" id="geometryRating">
+          1000
+        </div>
+
+        <div class="rank" id="geometryRank">
+          C
+        </div>
       </div>
-    </aside>
-  </div>
+
+
+      <div class="area">
+        <div class="area-name">CALCULUS</div>
+
+        <div class="area-rating" id="calculusRating">
+          1000
+        </div>
+
+        <div class="rank" id="calculusRank">
+          C
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+      <div class="stat">
+        <div class="stat-name">Solved</div>
+        <div class="stat-value" id="solved">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-name">Accuracy</div>
+        <div class="stat-value" id="accuracy">0%</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-name">Best rating</div>
+        <div class="stat-value" id="bestRating">1000</div>
+      </div>
+
+    </section>
+
+
+    <!-- PROBLEM -->
+
+    <section class="panel" id="problemPanel">
+
+      <div class="panel-header">
+
+        <div>
+          <div class="label">CURRENT PROBLEM</div>
+
+          <div class="problem-meta" id="problemMeta">
+            Choose a problem
+          </div>
+        </div>
+
+        <div class="difficulty" id="difficulty">
+          —
+        </div>
+
+      </div>
+
+
+      <div class="problem-text" id="problemText">
+        Нажми START, чтобы получить задачу.
+      </div>
+
+
+      <div class="answer-row">
+
+        <input
+          id="answerInput"
+          class="answer-input"
+          type="text"
+          placeholder="Введите ответ..."
+          onkeydown="handleEnter(event)"
+        >
+
+        <button
+          class="button"
+          onclick="submitAnswer()"
+        >
+          SUBMIT
+        </button>
+
+      </div>
+
+
+      <div class="answer-row">
+
+        <button
+          class="button secondary"
+          onclick="newProblem()"
+        >
+          START / NEXT
+        </button>
+
+      </div>
+
+
+      <div
+        id="result"
+        class="result"
+      ></div>
+
+    </section>
+
+
+    <!-- HISTORY -->
+
+    <section class="panel" id="historyPanel">
+
+      <div class="label">
+        RECENT HISTORY
+      </div>
+
+      <div id="history">
+        <div class="empty">
+          Пока нет решённых задач.
+        </div>
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- ================= RIGHT ================= -->
+
+  <aside class="sidebar right">
+
+    <h2>PROFILE</h2>
+
+    <div class="side-stat">
+
+      <div class="side-stat-name">
+        OVERALL
+      </div>
+
+      <div
+        class="side-stat-value"
+        id="sideOverall"
+      >
+        1000 C
+      </div>
+
+    </div>
+
+
+    <div class="side-stat">
+
+      <div class="side-stat-name">
+        SOLVED
+      </div>
+
+      <div
+        class="side-stat-value"
+        id="sideSolved"
+      >
+        0
+      </div>
+
+    </div>
+
+
+    <div class="side-stat">
+
+      <div class="side-stat-name">
+        ACCURACY
+      </div>
+
+      <div
+        class="side-stat-value"
+        id="sideAccuracy"
+      >
+        0%
+      </div>
+
+    </div>
+
+
+    <div class="side-stat">
+
+      <div class="side-stat-name">
+        STATUS
+      </div>
+
+      <div class="side-stat-value">
+        SOLO
+      </div>
+
+    </div>
+
+  </aside>
+
+</div>
+
+
+<script>
+
+  /* =========================================================
+     PROBLEMS
+  ========================================================= */
+
+  const problems = [
+
+    {
+      id: 1,
+      area: "Algebra",
+      topic: "Equations",
+      difficulty: 800,
+      text: "Решите: 2x + 6 = 14. Введите x.",
+      answer: "4"
+    },
+
+    {
+      id: 2,
+      area: "Algebra",
+      topic: "Equations",
+      difficulty: 950,
+      text: "Решите: 3x - 5 = 16. Введите x.",
+      answer: "7"
+    },
+
+    {
+      id: 3,
+      area: "Algebra",
+      topic: "Quadratics",
+      difficulty: 1100,
+      text: "Найдите больший корень: x² - 5x + 6 = 0.",
+      answer: "3"
+    },
+
+    {
+      id: 4,
+      area: "Algebra",
+      topic: "Fractions",
+      difficulty: 1200,
+      text: "Решите: x/3 + 2 = 7. Введите x.",
+      answer: "15"
+    },
+
+    {
+      id: 5,
+      area: "Algebra",
+      topic: "Quadratics",
+      difficulty: 1350,
+      text: "Найдите сумму корней: 2x² - 7x + 3 = 0.",
+      answer: "3.5"
+    },
+
+    {
+      id: 6,
+      area: "Algebra",
+      topic: "Systems",
+      difficulty: 1450,
+      text: "Если x+y=9 и x-y=3, найдите x.",
+      answer: "6"
+    },
+
+    {
+      id: 7,
+      area: "Algebra",
+      topic: "Powers",
+      difficulty: 1550,
+      text: "Найдите x: 2^x = 32.",
+      answer: "5"
+    },
+
+    {
+      id: 8,
+      area: "Algebra",
+      topic: "Inequalities",
+      difficulty: 1650,
+      text: "Решите: 2x - 3 > 7. Введите наименьшее целое решение.",
+      answer: "6"
+    },
+
+    {
+      id: 9,
+      area: "Algebra",
+      topic: "Functions",
+      difficulty: 1750,
+      text: "f(x)=x²-2x. Найдите f(3).",
+      answer: "3"
+    },
+
+    {
+      id: 10,
+      area: "Algebra",
+      topic: "Polynomials",
+      difficulty: 1900,
+      text: "Найдите остаток от деления x³+2x²+x+1 на x+1.",
+      answer: "1"
+    },
+
+
+    {
+      id: 11,
+      area: "Geometry",
+      topic: "Triangles",
+      difficulty: 800,
+      text: "У равностороннего треугольника сторона 5. Найдите периметр.",
+      answer: "15"
+    },
+
+    {
+      id: 12,
+      area: "Geometry",
+      topic: "Angles",
+      difficulty: 950,
+      text: "Сумма углов треугольника 180°. Два угла равны 50° и 60°. Найдите третий.",
+      answer: "70"
+    },
+
+    {
+      id: 13,
+      area: "Geometry",
+      topic: "Circles",
+      difficulty: 1100,
+      text: "Радиус окружности 3. Чему равен диаметр?",
+      answer: "6"
+    },
+
+    {
+      id: 14,
+      area: "Geometry",
+      topic: "Areas",
+      difficulty: 1200,
+      text: "Площадь прямоугольника со сторонами 7 и 4.",
+      answer: "28"
+    },
+
+    {
+      id: 15,
+      area: "Geometry",
+      topic: "Pythagorean theorem",
+      difficulty: 1350,
+      text: "Катеты прямоугольного треугольника 6 и 8. Найдите гипотенузу.",
+      answer: "10"
+    },
+
+    {
+      id: 16,
+      area: "Geometry",
+      topic: "Similar triangles",
+      difficulty: 1450,
+      text: "Подобные треугольники относятся как 2:3. Меньшая сторона 8. Большая?",
+      answer: "12"
+    },
+
+    {
+      id: 17,
+      area: "Geometry",
+      topic: "Coordinates",
+      difficulty: 1550,
+      text: "Расстояние между (0,0) и (3,4).",
+      answer: "5"
+    },
+
+    {
+      id: 18,
+      area: "Geometry",
+      topic: "Circles",
+      difficulty: 1650,
+      text: "Угол, опирающийся на диаметр окружности, равен сколько градусов?",
+      answer: "90"
+    },
+
+    {
+      id: 19,
+      area: "Geometry",
+      topic: "Areas",
+      difficulty: 1750,
+      text: "Площадь круга радиуса 2 без π: укажите коэффициент при π.",
+      answer: "4"
+    },
+
+    {
+      id: 20,
+      area: "Geometry",
+      topic: "Vectors",
+      difficulty: 1900,
+      text: "Длина вектора (6,8).",
+      answer: "10"
+    },
+
+
+    {
+      id: 21,
+      area: "Calculus",
+      topic: "Limits",
+      difficulty: 800,
+      text: "lim(x→2) (x+3).",
+      answer: "5"
+    },
+
+    {
+      id: 22,
+      area: "Calculus",
+      topic: "Derivatives",
+      difficulty: 950,
+      text: "Производная x² в точке x=3.",
+      answer: "6"
+    },
+
+    {
+      id: 23,
+      area: "Calculus",
+      topic: "Integrals",
+      difficulty: 1100,
+      text: "∫₀² x dx.",
+      answer: "2"
+    },
+
+    {
+      id: 24,
+      area: "Calculus",
+      topic: "Derivatives",
+      difficulty: 1200,
+      text: "Производная 3x² - 2x + 1.",
+      answer: "6x-2"
+    },
+
+    {
+      id: 25,
+      area: "Calculus",
+      topic: "Limits",
+      difficulty: 1350,
+      text: "lim(x→0) sin(x)/x.",
+      answer: "1"
+    },
+
+    {
+      id: 26,
+      area: "Calculus",
+      topic: "Integrals",
+      difficulty: 1450,
+      text: "∫₀¹ 2x dx.",
+      answer: "1"
+    },
+
+    {
+      id: 27,
+      area: "Calculus",
+      topic: "Derivatives",
+      difficulty: 1550,
+      text: "Найдите производную x³ + x.",
+      answer: "3x²+1"
+    },
+
+    {
+      id: 28,
+      area: "Calculus",
+      topic: "Optimization",
+      difficulty: 1650,
+      text: "f(x)=x². В какой точке x функция имеет минимум?",
+      answer: "0"
+    },
+
+    {
+      id: 29,
+      area: "Calculus",
+      topic: "Integrals",
+      difficulty: 1750,
+      text: "∫₀³ 2x dx.",
+      answer: "9"
+    },
+
+    {
+      id: 30,
+      area: "Calculus",
+      topic: "Series",
+      difficulty: 1900,
+      text: "Сходится ли ряд 1 + 1/2 + 1/4 + ...? Ответ: да или нет.",
+      answer: "да"
+    }
+
+  ];
+
+
+  /* =========================================================
+     STATE
+  ========================================================= */
+
+  const defaultState = {
+
+    ratings: {
+      Algebra: 1000,
+      Geometry: 1000,
+      Calculus: 1000
+    },
+
+    attempts: [],
+
+    bestRating: 1000
+
+  };
+
+
+  let state = loadState();
+  let currentProblem = null;
+  let problemStarted = false;
+
+
+  function loadState() {
+
+    const saved = localStorage.getItem("math-rating-state");
+
+    if (!saved) {
+      return structuredClone(defaultState);
+    }
+
+    try {
+      return JSON.parse(saved);
+    }
+
+    catch {
+      return structuredClone(defaultState);
+    }
+
+  }
+
+
+  function saveState() {
+
+    localStorage.setItem(
+      "math-rating-state",
+      JSON.stringify(state)
+    );
+
+  }
+
+
+  /* =========================================================
+     RATING
+  ========================================================= */
+
+  function getRank(rating) {
+
+    if (rating >= 1800) return "S+";
+    if (rating >= 1600) return "S";
+    if (rating >= 1400) return "A";
+    if (rating >= 1200) return "B";
+    if (rating >= 1000) return "C";
+    if (rating >= 800) return "D";
+
+    return "F";
+
+  }
+
+
+  function calculateChange(
+    rating,
+    difficulty,
+    correct
+  ) {
+
+    const gap = difficulty - rating;
+
+
+    if (correct) {
+
+      if (gap >= 400) return 40;
+      if (gap >= 200) return 30;
+      if (gap >= 0) return 20;
+      if (gap >= -200) return 8;
+
+      return 2;
+
+    }
+
+
+    if (gap <= -400) return -30;
+    if (gap <= -200) return -20;
+    if (gap <= 0) return -12;
+
+    return -5;
+
+  }
+
+
+  function overallRating() {
+
+    const ratings = Object.values(state.ratings);
+
+    return Math.round(
+      ratings.reduce((a, b) => a + b, 0)
+      / ratings.length
+    );
+
+  }
+
+
+  /* =========================================================
+     UI
+  ========================================================= */
+
+  function updateUI() {
+
+    const overall = overallRating();
+
+    document.getElementById("overallRating").textContent =
+      overall;
+
+    document.getElementById("overallRank").textContent =
+      getRank(overall);
+
+
+    document.getElementById("algebraRating").textContent =
+      state.ratings.Algebra;
+
+    document.getElementById("algebraRank").textContent =
+      getRank(state.ratings.Algebra);
+
+
+    document.getElementById("geometryRating").textContent =
+      state.ratings.Geometry;
+
+    document.getElementById("geometryRank").textContent =
+      getRank(state.ratings.Geometry);
+
+
+    document.getElementById("calculusRating").textContent =
+      state.ratings.Calculus;
+
+    document.getElementById("calculusRank").textContent =
+      getRank(state.ratings.Calculus);
+
+
+    const solved = state.attempts.length;
+
+    const correct =
+      state.attempts.filter(
+        a => a.correct
+      ).length;
+
+
+    const accuracy =
+      solved === 0
+        ? 0
+        : Math.round(
+            correct / solved * 100
+          );
+
+
+    document.getElementById("solved").textContent =
+      solved;
+
+    document.getElementById("accuracy").textContent =
+      accuracy + "%";
+
+    document.getElementById("bestRating").textContent =
+      state.bestRating;
+
+
+    document.getElementById("sideOverall").textContent =
+      overall + " " + getRank(overall);
+
+    document.getElementById("sideSolved").textContent =
+      solved;
+
+    document.getElementById("sideAccuracy").textContent =
+      accuracy + "%";
+
+
+    renderHistory();
+
+  }
+
+
+  /* =========================================================
+     PROBLEMS
+  ========================================================= */
+
+  function newProblem() {
+
+    const unused =
+      problems.filter(
+        p =>
+          !state.attempts.some(
+            a => a.problemId === p.id
+          )
+      );
+
+
+    const pool =
+      unused.length > 0
+        ? unused
+        : problems;
+
+
+    currentProblem =
+      pool[
+        Math.floor(
+          Math.random() * pool.length
+        )
+      ];
+
+
+    problemStarted = true;
+
+
+    document.getElementById("problemMeta").textContent =
+      currentProblem.area +
+      " · " +
+      currentProblem.topic;
+
+
+    document.getElementById("difficulty").textContent =
+      "RATING " +
+      currentProblem.difficulty;
+
+
+    document.getElementById("problemText").textContent =
+      currentProblem.text;
+
+
+    document.getElementById("answerInput").value =
+      "";
+
+
+    document.getElementById("answerInput").focus();
+
+
+    const result =
+      document.getElementById("result");
+
+
+    result.className = "result";
+    result.textContent = "";
+
+  }
+
+
+  function normalizeAnswer(value) {
+
+    return value
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "");
+
+  }
+
+
+  function submitAnswer() {
+
+    if (!currentProblem || !problemStarted) {
+
+      newProblem();
+
+      return;
+
+    }
+
+
+    const input =
+      document.getElementById("answerInput");
+
+
+    const userAnswer =
+      normalizeAnswer(input.value);
+
+
+    if (!userAnswer) return;
+
+
+    const correct =
+      userAnswer ===
+      normalizeAnswer(
+        currentProblem.answer
+      );
+
+
+    const before =
+      state.ratings[
+        currentProblem.area
+      ];
+
+
+    const change =
+      calculateChange(
+        before,
+        currentProblem.difficulty,
+        correct
+      );
+
+
+    const after =
+      Math.max(
+        0,
+        before + change
+      );
+
+
+    state.ratings[
+      currentProblem.area
+    ] = after;
+
+
+    const attempt = {
+
+      problemId: currentProblem.id,
+
+      area: currentProblem.area,
+
+      topic: currentProblem.topic,
+
+      correct: correct,
+
+      change: change,
+
+      before: before,
+
+      after: after,
+
+      difficulty: currentProblem.difficulty,
+
+      time: new Date().toISOString()
+
+    };
+
+
+    state.attempts.unshift(attempt);
+
+
+    const overall =
+      overallRating();
+
+
+    if (
+      overall >
+      state.bestRating
+    ) {
+
+      state.bestRating =
+        overall;
+
+    }
+
+
+    saveState();
+
+
+    const result =
+      document.getElementById("result");
+
+
+    result.className =
+      "result visible " +
+      (correct
+        ? "correct"
+        : "wrong");
+
+
+    if (correct) {
+
+      result.textContent =
+        "CORRECT  ·  " +
+        (change >= 0 ? "+" : "") +
+        change +
+        " ELO  ·  " +
+        before +
+        " → " +
+        after;
+
+    }
+
+    else {
+
+      result.textContent =
+        "WRONG  ·  " +
+        change +
+        " ELO  ·  " +
+        before +
+        " → " +
+        after +
+        "  ·  answer: " +
+        currentProblem.answer;
+
+    }
+
+
+    problemStarted = false;
+
+    updateUI();
+
+  }
+
+
+  function handleEnter(event) {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      submitAnswer();
+
+    }
+
+  }
+
+
+  /* =========================================================
+     HISTORY
+  ========================================================= */
+
+  function renderHistory() {
+
+    const container =
+      document.getElementById("history");
+
+
+    if (
+      state.attempts.length === 0
+    ) {
+
+      container.innerHTML =
+        '<div class="empty">Пока нет решённых задач.</div>';
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      state.attempts
+        .slice(0, 15)
+        .map(
+          attempt => `
+
+            <div class="history-row">
+
+              <div>
+                ${attempt.area}
+                ·
+                ${attempt.topic}
+              </div>
+
+              <div class="history-result ${
+                attempt.correct
+                  ? "correct"
+                  : "wrong"
+              }">
+
+                ${
+                  attempt.correct
+                    ? "CORRECT"
+                    : "WRONG"
+                }
+
+              </div>
+
+              <div class="${
+                attempt.change >= 0
+                  ? "positive"
+                  : "negative"
+              }">
+
+                ${
+                  attempt.change >= 0
+                    ? "+"
+                    : ""
+                }${attempt.change}
+
+              </div>
+
+            </div>
+
+          `
+        )
+        .join("");
+
+  }
+
+
+  function showHistory() {
+
+    document
+      .getElementById("historyPanel")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+
+
+  /* =========================================================
+     RESET
+  ========================================================= */
+
+  function resetProfile() {
+
+    const confirmed =
+      confirm(
+        "Сбросить весь рейтинг и историю?"
+      );
+
+
+    if (!confirmed) return;
+
+
+    localStorage.removeItem(
+      "math-rating-state"
+    );
+
+
+    state =
+      structuredClone(
+        defaultState
+      );
+
+
+    currentProblem = null;
+
+    problemStarted = false;
+
+
+    document.getElementById(
+      "problemText"
+    ).textContent =
+      "Нажми START, чтобы получить задачу.";
+
+
+    document.getElementById(
+      "problemMeta"
+    ).textContent =
+      "Choose a problem";
+
+
+    document.getElementById(
+      "difficulty"
+    ).textContent =
+      "—";
+
+
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     START
+  ========================================================= */
+
+  updateUI();
+
+</script>
+
 </body>
 </html>
+```
